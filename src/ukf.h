@@ -58,6 +58,12 @@ public:
   ///* Weights of sigma points
   VectorXd weights_;
 
+  ///* Defining H matrix for laser updates
+  MatrixXd H_laser_;
+
+  //* Defining measurement covariance matrix - laser
+  MatrixXd R_laser_;
+
   ///* State dimension
   int n_x_;
 
@@ -67,6 +73,11 @@ public:
   ///* Sigma point spreading parameter
   double lambda_;
 
+  ///* NIS (Normalized Innovation Squared)
+  double nis_;
+
+  ///* create augmented sigma point matrix
+  MatrixXd Xsig_aug_;
 
   /**
    * Constructor
@@ -95,6 +106,25 @@ public:
    * Updates the state and the state covariance matrix using a laser measurement
    * @param meas_package The measurement at k+1
    */
+  void GenerateAugSigmaPoints();
+
+  /**
+   * Generates Augmented Sigma Points
+   * 
+   */
+
+  void SigmaPointPrediction(double delta_t);
+  /**
+   * Prediction of new sigma points at time k+1.
+   * 
+   */
+
+  void UKF::PredictMeanAndCovariance();
+  /**
+   * Predict Mean and Covariance based on predicted sigma points at k+1.
+   * 
+   */
+
   void UpdateLidar(MeasurementPackage meas_package);
 
   /**
