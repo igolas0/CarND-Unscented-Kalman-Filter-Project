@@ -28,9 +28,6 @@ public:
   ///* state covariance matrix
   MatrixXd P_;
 
-  ///* predicted sigma points matrix
-  MatrixXd Xsig_pred_;
-
   ///* time when the state is true, in us
   long long time_us_;
 
@@ -55,9 +52,6 @@ public:
   ///* Radar measurement noise standard deviation radius change in m/s
   double std_radrd_ ;
 
-  ///* Weights of sigma points
-  VectorXd weights_;
-
   ///* Defining H matrix for laser updates
   MatrixXd H_laser_;
 
@@ -67,17 +61,30 @@ public:
   ///* State dimension
   int n_x_;
 
+  ///* Radar measurement space dimension
+  int n_z_;
+
   ///* Augmented state dimension
   int n_aug_;
 
   ///* Sigma point spreading parameter
   double lambda_;
 
-  ///* NIS (Normalized Innovation Squared)
-  double nis_;
+  ///* Weights of sigma points
+  VectorXd weights_;
 
   ///* create augmented sigma point matrix
   MatrixXd Xsig_aug_;
+
+  ///* predicted sigma points matrix
+  MatrixXd Xsig_pred_;
+
+  //create matrix for sigma points in radar measurement space (for radar update)
+  MatrixXd Zsig_;
+
+  ///* NIS (Normalized Innovation Squared)
+  double nis_;
+
 
   /**
    * Constructor
@@ -93,14 +100,14 @@ public:
    * ProcessMeasurement
    * @param meas_package The latest measurement data of either radar or laser
    */
-  void ProcessMeasurement(MeasurementPackage meas_package);
+  void ProcessMeasurement(const MeasurementPackage &meas_package);
 
   /**
    * Prediction Predicts sigma points, the state, and the state covariance
    * matrix
    * @param delta_t Time between k and k+1 in s
    */
-  void Prediction(double delta_t);
+  void Prediction(const double delta_t);
 
   /**
    * Updates the state and the state covariance matrix using a laser measurement
@@ -113,25 +120,25 @@ public:
    * 
    */
 
-  void SigmaPointPrediction(double delta_t);
+  void SigmaPointPrediction(const double delta_t);
   /**
    * Prediction of new sigma points at time k+1.
    * 
    */
 
-  void UKF::PredictMeanAndCovariance();
+  void PredictMeanAndCovariance();
   /**
    * Predict Mean and Covariance based on predicted sigma points at k+1.
    * 
    */
 
-  void UpdateLidar(MeasurementPackage meas_package);
+  void UpdateLidar(const VectorXd &z);
 
   /**
    * Updates the state and the state covariance matrix using a radar measurement
    * @param meas_package The measurement at k+1
    */
-  void UpdateRadar(MeasurementPackage meas_package);
+  void UpdateRadar(const VectorXd &z);
 };
 
 #endif /* UKF_H */
