@@ -50,11 +50,11 @@ The above parameters combined with an UKF approach for prediction and radar meas
 
 Which are more than good enough to pass the project rubric. When using "Radar only" or "Laser only" measurements the accuracy of the estimations decreased significantly.
 
-Below I will plot the results of the NIS calculations after each step for Radar and Lidar measurements, which can give an indication if the uncertainty or process noise of the UKF was set up too high or to low (compared to the real noise of the measurements and phenomena observed). The plots are compared to the statistical 95% reference:
+Below I will plot the results of the NIS calculations after each step for Radar and Lidar measurements, which gives an indication as to where the uncertainty or process noise of the UKF was set up too high or too low (compared to the real noise of the measurements and phenomena observed). The pictures are plotted against the statistical 95% reference:
 
 ![alt text][image1]
 ![alt text][image2]
 
-As one can appreciate the majority of the of the NIS values stay under the 95% reference line without overestimation happening either. This means the chosen parameters do a good job, at the very least for the encountered datasets, and while further fine tuning for slight improvements might be possible we can be satisfied with the achieved results.
+As one can appreciate the majority of the NIS values stay under the 95% reference line without overestimation happening either. This means the chosen parameters do a good job, at the very least for the encountered datasets, and while further fine tuning for slight improvements might be possible this signals that we can be satisfied with the achieved results.
 
 
