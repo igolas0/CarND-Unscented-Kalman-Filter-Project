@@ -1,19 +1,18 @@
 [//]: # (Image References)
 
-[image1]: ./src/nis_radar.png "nis radar"
-[image2]: ./src/nis_laser.png "nis laser"
+[image1]: ./src/radar_nis.png "nis radar"
+[image2]: ./src/laser_nis.png "nis laser"
 
 
 # Unscented Kalman Filter Project 
-Self-Driving Car Engineer Nanodegree Program
 
 In this project an Unscented Kalman Filter was utilized to estimate the state of a moving object of interest with noisy lidar and radar measurements. Passing the project requires obtaining RMSE values that are lower that the tolerance outlined in the project rubric. 
 
-The source code implemented to accomplish the project are src/ukf.cpp, src/ukf.h, tools.cpp, and tools.h
+The source code implemented to accomplish the project are src/ukf.cpp, src/ukf.h, src/tools.cpp, and src/tools.h
 
 The program main.cpp handles the communication with the simulator via uWebSocket.
 
-Here is the main protcol that main.cpp uses for uWebSocketIO in communicating with the simulator.
+Here is the main protocol that main.cpp uses for uWebSocketIO in communicating with the simulator.
 
 
 INPUT: values provided by the simulator to the c++ program
@@ -24,7 +23,9 @@ INPUT: values provided by the simulator to the c++ program
 OUTPUT: values provided by the c++ program to the simulator
 
 ["estimate_x"] <= kalman filter estimated position x
+
 ["estimate_y"] <= kalman filter estimated position y
+
 ["rmse_x"]
 ["rmse_y"]
 ["rmse_vx"]
@@ -54,6 +55,6 @@ Below I will plot the results of the NIS calculations after each step for Radar 
 ![alt text][image1]
 ![alt text][image2]
 
-
+As one can appreciate the majority of the of the NIS values stay under the 95% reference line without overestimation happening either. This means the chosen parameters do a good job, at the very least for the encountered datasets, and while further fine tuning for slight improvements might be possible we can be satisfied with the achieved results.
 
 
