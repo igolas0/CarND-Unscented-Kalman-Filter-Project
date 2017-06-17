@@ -83,7 +83,8 @@ public:
   MatrixXd Zsig_;
 
   ///* NIS (Normalized Innovation Squared)
-  double nis_;
+  double NIS_laser_;
+  double NIS_radar_;
 
 
   /**
