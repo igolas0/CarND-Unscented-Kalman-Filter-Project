@@ -1,30 +1,24 @@
-# Unscented Kalman Filter Project Starter Code
+[//]: # (Image References)
+
+[image1]: ./src/nis_radar.png "nis radar"
+[image2]: ./src/nis_laser.png "nis laser"
+
+
+# Unscented Kalman Filter Project 
 Self-Driving Car Engineer Nanodegree Program
 
-In this project utilize an Unscented Kalman Filter to estimate the state of a moving object of interest with noisy lidar and radar measurements. Passing the project requires obtaining RMSE values that are lower that the tolerance outlined in the project reburic. 
+In this project an Unscented Kalman Filter was utilized to estimate the state of a moving object of interest with noisy lidar and radar measurements. Passing the project requires obtaining RMSE values that are lower that the tolerance outlined in the project rubric. 
 
-This project involves the Term 2 Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases)
+The source code implemented to accomplish the project are src/ukf.cpp, src/ukf.h, tools.cpp, and tools.h
 
-This repository includes two files that can be used to set up and intall [uWebSocketIO](https://github.com/uWebSockets/uWebSockets) for either Linux or Mac systems. For windows you can use either Docker, VMware, or even [Windows 10 Bash on Ubuntu](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/) to install uWebSocketIO. 
-
-Once the install for uWebSocketIO is complete, the main program can be built and ran by doing the following from the project top directory.
-
-1. mkdir build
-2. cd build
-3. cmake ..
-4. make
-5. ./UnscentedKF
-
-Note that the programs that need to be written to accomplish the project are src/ukf.cpp, src/ukf.h, tools.cpp, and tools.h
-
-The program main.cpp has already been filled out, but feel free to modify it.
+The program main.cpp handles the communication with the simulator via uWebSocket.
 
 Here is the main protcol that main.cpp uses for uWebSocketIO in communicating with the simulator.
 
 
 INPUT: values provided by the simulator to the c++ program
 
-["sensor_measurement"] => the measurment that the simulator observed (either lidar or radar)
+["sensor_measurement"] => the measurement that the simulator observed (either lidar or radar)
 
 
 OUTPUT: values provided by the c++ program to the simulator
@@ -38,44 +32,28 @@ OUTPUT: values provided by the c++ program to the simulator
 
 ---
 
-## Other Important Dependencies
+## Summary of Project Results
 
-* cmake >= v3.5
-* make >= v4.1
-* gcc/g++ >= v5.4
+I fixed on the following set of parameters to achieve my low RMSE results:
 
-## Basic Build Instructions
+* The standard deviation of the longitudinal acceleration std_a_ was set to 0.5 m/s^2.
+* The process noise standard deviation of yaw acceleration std_yawdd was set to 1.0 rad/s^2.
+* The main diagonal of the initial covariance matrix P_ was initialized to 1.0 and rest to zero.
+* When initializing the state vector with a radar measurement I used rho_dot to get a first estimation for vx and vy.
 
-1. Clone this repo.
-2. Make a build directory: `mkdir build && cd build`
-3. Compile: `cmake .. && make`
-4. Run it: `./UnscentedKF path/to/input.txt path/to/output.txt`. You can find
-   some sample inputs in 'data/'.
-    - eg. `./UnscentedKF ../data/obj_pose-laser-radar-synthetic-input.txt`
+The above parameters combined with an UKF approach for prediction and radar measurement updates, as well as a linear Kalman Filter approach for the lidar updates gets me the following RMSE values when using Dataset1 on the simulator:
+["rmse_x"] = 0.0596
+["rmse_y"] = 0.0872
+["rmse_vx"] = 0.3343
+["rmse_vy"] = 0.2210
 
-## Editor Settings
+Which are more than good enough to pass the project rubric. When using "Radar only" or "Laser only" measurements the accuracy of the estimations decreased significantly.
 
-We've purposefully kept editor configuration files out of this repo in order to
-keep it as simple and environment agnostic as possible. However, we recommend
-using the following settings:
+Below I will plot the results of the NIS calculations after each step for Radar and Lidar measurements, which can give an indication if the uncertainty or process noise of the UKF was set up too high or to low (compared to the real noise of the measurements and phenomena observed). The plots are compared to the statistical 95% reference:
 
-* indent using spaces
-* set tab width to 2 spaces (keeps the matrices in source code aligned)
+![alt text][image1]
+![alt text][image2]
 
-## Code Style
 
-Please stick to [Google's C++ style guide](https://google.github.io/styleguide/cppguide.html) as much as possible.
 
-## Generating Additional Data
 
-This is optional!
-
-If you'd like to generate your own radar and lidar data, see the
-[utilities repo](https://github.com/udacity/CarND-Mercedes-SF-Utilities) for
-Matlab scripts that can generate additional data.
-
-## Project Instructions and Rubric
-
-This information is only accessible by people who are already enrolled in Term 2
-of CarND. If you are enrolled, see [the project page](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/0949fca6-b379-42af-a919-ee50aa304e6a/lessons/c3eb3583-17b2-4d83-abf7-d852ae1b9fff/concepts/f437b8b0-f2d8-43b0-9662-72ac4e4029c1)
-for instructions and the project rubric.
