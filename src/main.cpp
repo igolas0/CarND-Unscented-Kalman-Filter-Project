@@ -38,10 +38,14 @@ int main()
   vector<VectorXd> estimations;
   vector<VectorXd> ground_truth;
 
+
+
   h.onMessage([&ukf,&tools,&estimations,&ground_truth](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
     // The 2 signifies a websocket event
+
+
 
     if (length && length > 2 && data[0] == '4' && data[1] == '2')
     {
@@ -126,6 +130,26 @@ int main()
     	  estimate(3) = v2;
     	  
     	  estimations.push_back(estimate);
+
+	  // output the NIS values to text files
+	  ofstream out_file1;
+	  ofstream out_file2;
+
+	  // output the NIS values to text files
+	  out_file1.open ("nis_laser.txt", ios::in | ios::app);
+	  out_file2.open ("nis_radar.txt", ios::in | ios::app);
+
+          if (meas_package.sensor_type_ == MeasurementPackage::LASER) 
+          {
+             out_file1 << ukf.NIS_laser_ << "\n";
+
+          } else if (meas_package.sensor_type_ == MeasurementPackage::RADAR) {
+
+             out_file2 << ukf.NIS_radar_ << "\n";
+          }
+
+          out_file1.close();
+          out_file2.close();
 
     	  VectorXd RMSE = tools.CalculateRMSE(estimations, ground_truth);
 
